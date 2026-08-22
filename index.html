@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#123f49" />
+    <meta name="description" content="Cadernos digitais protegidos para ideias, projetos e conexões." />
+    <title>Caderno Especial FTC</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="stylesheet" href="v2.css" />
+  </head>
+  <body>
+    <section class="lock-screen" id="lockScreen" aria-live="polite">
+      <div class="lock-card">
+        <span class="lock-star">✦</span>
+        <p class="eyebrow">SEU ESPAÇO PARTICULAR</p>
+        <h1>Caderno Especial</h1>
+        <p id="lockText">Crie uma senha para proteger seus cadernos neste aparelho.</p>
+        <form id="unlockForm" class="lock-form">
+          <label><span id="passwordLabel">Crie sua senha</span><input id="passwordInput" type="password" minlength="6" autocomplete="current-password" required /></label>
+          <label id="confirmPasswordWrap">Repita a senha<input id="confirmPasswordInput" type="password" minlength="6" autocomplete="new-password" /></label>
+          <p class="form-error" id="lockError" role="alert"></p>
+          <button class="primary" id="unlockButton" type="submit">Criar senha e entrar</button>
+        </form>
+      </div>
+    </section>
+
+    <div id="appShell" class="app-shell" aria-hidden="true">
+      <header class="topbar">
+        <div class="brand"><span class="brand-mark">✦</span><span>Caderno Especial</span></div>
+        <button class="sync-access" id="openSync" type="button"><span id="syncDot" class="status-dot"></span><span id="syncButtonText">Sincronizar</span></button>
+        <button class="profile" id="openSecurity" type="button" aria-label="Segurança">A</button>
+      </header>
+
+      <main>
+        <section class="welcome">
+          <div>
+            <p class="eyebrow">MINHA ESTANTE</p>
+            <h1>Seus cadernos, suas ideias.</h1>
+            <p>Um lugar protegido para guardar projetos e conexões que importam.</p>
+          </div>
+          <button class="primary" id="newNotebook" type="button">+ Novo caderno</button>
+        </section>
+
+        <nav class="tabs" aria-label="Navegação principal">
+          <button class="tab active" data-view="shelf" type="button">Cadernos</button>
+          <button class="tab" data-view="resources" type="button">Banco de Recursos</button>
+        </nav>
+
+        <section id="shelf" class="view active">
+          <div class="section-heading"><div><h2>Seus cadernos</h2><p>Toque em uma capa para visualizar e abrir.</p></div></div>
+          <div class="shelf-grid" id="shelfGrid"></div>
+        </section>
+
+        <section id="resources" class="view">
+          <div class="section-heading"><div><h2>Banco de Recursos</h2><p>Use seus adesivos em qualquer página.</p></div></div>
+          <div class="resource-grid">
+            <button class="resource-folder" type="button" disabled><span>▰</span>Infográficos <small>Em breve</small></button>
+            <button class="resource-folder" type="button" disabled><span>▰</span>Imagens <small>Em breve</small></button>
+            <button class="resource-folder sticker-folder" id="stickersResource" type="button"><span>✦</span>Adesivos <small>Coleções coloridas e ilustrações</small></button>
+          </div>
+        </section>
+
+        <section id="editor" class="editor-screen" aria-live="polite">
+          <div class="editor-top">
+            <button id="backShelf" class="back-button" type="button">← Estante</button>
+            <div><p class="eyebrow">CADERNO ABERTO</p><h2 id="editorTitle">Caderno</h2></div>
+            <span class="save-indicator" id="saveIndicator">Salvo</span>
+          </div>
+          <div class="editor-layout">
+            <aside class="pages-panel">
+              <button id="addPage" class="add-page" type="button">+ Nova página</button>
+              <div id="pageList" class="page-list"></div>
+            </aside>
+            <section class="paper">
+              <button id="closeNotebook" class="close-notebook" type="button" aria-label="Fechar caderno">×</button>
+              <div class="paper-tools">
+                <select id="fontFamily" class="format-select" aria-label="Tipo de letra">
+                  <option value="Arial">Clara</option>
+                  <option value="Georgia">Clássica</option>
+                  <option value="Trebuchet MS">Leve</option>
+                  <option value="Courier New">Manuscrita</option>
+                </select>
+                <button class="tool" id="fontSmall" type="button" title="Letra menor">A−</button>
+                <button class="tool" id="fontLarge" type="button" title="Letra maior">A+</button>
+                <button class="color-dot coral" data-color="#dc7555" type="button" aria-label="Cor coral"></button>
+                <button class="color-dot teal" data-color="#123f49" type="button" aria-label="Cor azul-petróleo"></button>
+                <button class="color-dot gold" data-color="#c88816" type="button" aria-label="Cor dourada"></button>
+                <button class="tool" id="dictate" type="button" title="Falar para escrever">🎙 Falar</button>
+                <button class="tool" id="inkPen" type="button" title="Escrever com caneta digital">✍ Caneta</button>
+                <button class="tool" id="inkHighlighter" type="button" title="Usar marca-texto">▰ Marca-texto</button>
+                <button class="tool" id="inkEraser" type="button" title="Apagar escrita manual">⌫ Borracha</button>
+                <input class="ink-color" id="inkColor" type="color" value="#173641" aria-label="Cor da caneta" title="Cor da caneta" />
+                <select class="format-select ink-size" id="inkSize" aria-label="Espessura da caneta" title="Espessura da caneta">
+                  <option value="2">Fina</option>
+                  <option value="4" selected>Média</option>
+                  <option value="7">Grossa</option>
+                </select>
+                <button class="tool" id="inkUndo" type="button" title="Desfazer último traço">↶</button>
+                <button class="tool" id="inkRedo" type="button" title="Refazer último traço">↷</button>
+                <button class="tool" id="openStickers" type="button">✦ Adesivos</button>
+                <button class="tool smart-tool" id="handwritingToText" type="button" title="Transformar escrita manual em texto">⌁ Ler escrita</button>
+                <button class="tool smart-tool" id="generateSummary" type="button">✨ Resumo</button>
+                <button class="tool smart-tool" id="generateInfographic" type="button">▦ Infográfico</button>
+              </div>
+              <input id="pageTitle" class="page-title" value="Página sem título" aria-label="Título da página" />
+              <div id="writingArea" class="writing-area" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Comece a escrever aqui...&#10;&#10;Você pode registrar ideias, colar textos e inserir adesivos."></div>
+              <div id="smartResults" class="smart-results"></div>
+              <div id="placedStickers" class="placed-stickers"></div>
+              <canvas id="inkCanvas" class="ink-canvas" aria-label="Camada de escrita com caneta"></canvas>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="newNotebookDialog">
+      <form id="newNotebookForm">
+        <button class="dialog-close" type="button" data-close-dialog aria-label="Fechar">×</button>
+        <p class="eyebrow">NOVO CADERNO</p>
+        <h2>Crie seu próximo caderno</h2>
+        <label>Nome do caderno<input id="notebookName" placeholder="Ex.: Psicologia Intercultural" required /></label>
+        <label>Informação adicional <small>(opcional)</small><input id="notebookDescription" maxlength="80" placeholder="Ex.: Estudos, projetos e reflexões" /></label>
+        <p class="field-title">Escolha uma capa</p>
+        <div class="cover-picker" id="newCoverPicker"></div>
+        <button class="primary wide" type="submit">Continuar e personalizar a capa</button>
+      </form>
+    </dialog>
+
+    <dialog id="manageNotebookDialog">
+      <form>
+        <button class="dialog-close" type="button" data-close-dialog aria-label="Fechar">×</button>
+        <p class="eyebrow">GERENCIAR CADERNO</p>
+        <h2 id="manageNotebookTitle">Caderno</h2>
+        <button type="button" class="dialog-action featured" id="editCoverText">✎ Editar nome, informação e capa</button>
+        <p class="field-title">Trocar a imagem da capa</p>
+        <div class="cover-picker" id="manageCoverPicker"></div>
+        <input id="coverUpload" type="file" accept="image/*" hidden />
+        <button type="button" class="dialog-action" id="uploadCoverButton">+ Usar minha imagem</button>
+        <hr />
+        <button type="button" class="dialog-action featured" id="exportNotebookPdf">▣ Salvar este caderno em PDF</button>
+        <button type="button" class="dialog-action" id="backupNotebook">⇩ Fazer backup deste caderno</button>
+        <button type="button" class="dialog-action" id="archiveNotebook">◫ Arquivar e iniciar uma continuação</button>
+        <button type="button" class="delete-notebook" id="deleteNotebook">Apagar este caderno</button>
+      </form>
+    </dialog>
+
+    <dialog id="coverEditorDialog" class="cover-editor-dialog">
+      <form id="coverEditorForm">
+        <button class="dialog-close" type="button" data-close-dialog aria-label="Fechar">×</button>
+        <p class="eyebrow">PERSONALIZAR CAPA</p>
+        <h2>Escreva do seu jeito</h2>
+        <div class="cover-editor-layout">
+          <div class="cover-stage-wrap">
+            <div class="cover-stage" id="coverStage">
+              <img id="coverStageImage" alt="Prévia da capa" />
+              <button class="cover-writing cover-title-writing" id="coverTitleWriting" type="button"></button>
+              <button class="cover-writing cover-subtitle-writing" id="coverSubtitleWriting" type="button"></button>
+            </div>
+            <p class="cover-tip">Arraste cada texto para a posição desejada.</p>
+          </div>
+          <div class="cover-controls">
+            <label>Matéria ou título<input id="coverTitleInput" maxlength="60" placeholder="Ex.: Psicologia Intercultural" /></label>
+            <label>Informação adicional<input id="coverSubtitleInput" maxlength="80" placeholder="Ex.: Estudos e reflexões" /></label>
+            <label>Estilo da letra
+              <select id="coverFontInput">
+                <option value="Georgia, serif">Clássica</option>
+                <option value="'Palatino Linotype', Palatino, serif">Elegante</option>
+                <option value="'Segoe Print', 'Bradley Hand', cursive">Delicada</option>
+                <option value="'Trebuchet MS', sans-serif">Leve</option>
+                <option value="Arial, sans-serif">Clara</option>
+              </select>
+            </label>
+            <label>Tamanho do título<input id="coverTitleSize" type="range" min="18" max="48" step="1" /></label>
+            <label>Tamanho da informação<input id="coverSubtitleSize" type="range" min="11" max="28" step="1" /></label>
+            <label>Cor da letra<input id="coverColorInput" type="color" value="#fff8e8" /></label>
+            <div class="quick-colors" aria-label="Cores sugeridas">
+              <button type="button" data-cover-color="#fff8e8" style="--swatch:#fff8e8" aria-label="Creme"></button>
+              <button type="button" data-cover-color="#ffffff" style="--swatch:#ffffff" aria-label="Branco"></button>
+              <button type="button" data-cover-color="#173641" style="--swatch:#173641" aria-label="Azul-petróleo"></button>
+              <button type="button" data-cover-color="#d89b22" style="--swatch:#d89b22" aria-label="Dourado"></button>
+              <button type="button" data-cover-color="#dc7555" style="--swatch:#dc7555" aria-label="Coral"></button>
+            </div>
+            <div class="position-actions">
+              <button type="button" data-cover-position="top">No alto</button>
+              <button type="button" data-cover-position="center">No centro</button>
+              <button type="button" data-cover-position="bottom">Embaixo</button>
+            </div>
+            <button class="primary wide" type="submit">Salvar capa</button>
+          </div>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="stickerDialog" class="sticker-dialog">
+      <form>
+        <button class="dialog-close" type="button" data-close-dialog aria-label="Fechar">×</button>
+        <p class="eyebrow">BANCO DE RECURSOS</p>
+        <h2>Adesivos</h2>
+        <p class="dialog-copy">Escolha uma coleção e insira o adesivo na página aberta.</p>
+        <div id="stickerCollections"></div>
+        <input id="stickerUpload" type="file" accept="image/*" multiple hidden />
+        <input id="stickerFolderUpload" type="file" accept="image/*" webkitdirectory directory multiple hidden />
+        <button class="dialog-action" type="button" id="uploadStickerButton">+ Adicionar meus adesivos</button>
+        <button class="dialog-action" type="button" id="uploadStickerFolderButton">+ Adicionar uma pasta de adesivos</button>
+      </form>
+    </dialog>
+
+    <dialog id="syncDialog">
+      <form>
+        <button class="dialog-close" type="button" data-close-dialog aria-label="Fechar">×</button>
+        <p class="eyebrow">SINCRONIZAÇÃO PROTEGIDA</p>
+        <h2>Seus cadernos em seus aparelhos</h2>
+        <p class="sync-message" id="syncMessage">Use um código particular para conectar celular e computador.</p>
+        <div id="syncDisconnected">
+          <button type="button" class="primary wide" id="createSyncCode">Criar meu código particular</button>
+          <div class="or-divider"><span>ou</span></div>
+          <label>Já tenho um código<input id="syncCodeInput" autocomplete="off" placeholder="Cole o código particular" /></label>
+          <button type="button" class="dialog-action" id="connectSyncCode">Conectar este aparelho</button>
+        </div>
+        <div id="syncConnected" hidden>
+          <label>Seu código particular<textarea id="syncCodeOutput" readonly></textarea></label>
+          <button type="button" class="dialog-action" id="copySyncCode">Copiar código</button>
+          <button type="button" class="dialog-action" id="syncNow">Sincronizar agora</button>
+          <button type="button" class="danger-outline" id="disconnectSync">Desconectar este aparelho</button>
+        </div>
+        <p class="privacy-note">Não compartilhe esse código publicamente. Ele dá acesso aos seus cadernos sincronizados.</p>
+      </form>
+    </dialog>
+
+    <dialog id="securityDialog">
+      <form id="changePasswordForm">
+        <button class="dialog-close" type="button" data-close-dialog aria-label="Fechar">×</button>
+        <p class="eyebrow">SEGURANÇA</p>
+        <h2>Proteção neste aparelho</h2>
+        <label>Senha atual<input id="currentPassword" type="password" autocomplete="current-password" /></label>
+        <label>Nova senha<input id="newPasswordValue" type="password" minlength="6" autocomplete="new-password" /></label>
+        <label>Repita a nova senha<input id="repeatNewPassword" type="password" minlength="6" autocomplete="new-password" /></label>
+        <p class="form-error" id="passwordError" role="alert"></p>
+        <button type="submit" class="dialog-action featured">Trocar senha</button>
+        <hr />
+        <p class="field-title">BACKUP E RESTAURAÇÃO</p>
+        <button type="button" class="dialog-action" id="backupAll">⇩ Fazer backup completo</button>
+        <button type="button" class="dialog-action" id="restoreBackup">⇧ Restaurar um backup</button>
+        <input id="restoreBackupInput" type="file" accept=".caderno-ftc,.json,application/json" hidden />
+        <p class="privacy-note">O backup é criptografado e exige a senha usada quando foi criado.</p>
+        <hr />
+        <button type="button" class="primary wide" id="lockNow">Bloquear / Sair agora</button>
+        <p class="privacy-note">O aplicativo também bloqueia após 5 minutos sem uso.</p>
+      </form>
+    </dialog>
+
+    <section id="coverPreview" class="cover-preview" aria-hidden="true">
+      <button class="preview-close" id="closePreview" type="button" aria-label="Voltar para estante">×</button>
+      <div class="preview-cover" id="previewCover" role="button" tabindex="0">
+        <img id="previewImage" alt="Capa do caderno selecionado" />
+        <span class="preview-writing preview-title" id="previewTitle"></span>
+        <span class="preview-writing preview-subtitle" id="previewSubtitle"></span>
+        <p>Toque mais uma vez para abrir</p>
+      </div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="firebase-config.js"></script>
+    <script defer src="app-v2.js"></script>
+  </body>
+</html>

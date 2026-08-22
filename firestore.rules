@@ -1,0 +1,20 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /caderno_sync/{documentId} {
+      allow read: if documentId.size() >= 40 && documentId.size() <= 48;
+      allow create, update: if documentId.size() >= 40
+                            && documentId.size() <= 48
+                            && request.resource.data.keys().hasOnly(['version', 'updatedAt', 'iv', 'payload'])
+                            && request.resource.data.version == 2
+                            && request.resource.data.updatedAt is int
+                            && request.resource.data.iv is string
+                            && request.resource.data.iv.size() <= 40
+                            && request.resource.data.payload is string
+                            && request.resource.data.payload.size() <= 900000;
+      allow delete: if false;
+    }
+  }
+}
+

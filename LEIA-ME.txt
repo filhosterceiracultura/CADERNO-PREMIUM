@@ -1,0 +1,63 @@
+CADERNO ESPECIAL FTC — V12 INTELIGENTE (PRÉVIA)
+
+Esta versão inclui:
+
+- 20 stickers coloridos em Palavras que acolhem;
+- 20 stickers coloridos em Dias e meses;
+- 20 stickers coloridos em Mundo e caminhos;
+- 20 stickers coloridos em Promessas bíblicas;
+- 193 bandeiras guardadas no aplicativo para uso offline;
+- 34 capas de cadernos com espiral;
+- conversão automática das capas salvas em versões anteriores;
+- as 34 capas ficam disponíveis em “Criar novo caderno”, sem duplicar os já existentes;
+- capas com cantos retos para não cortar a espiral;
+- espiral acrescentado às três capas que ainda não possuíam;
+- pequena margem uniforme para nenhum espiral ficar encostado na borda;
+- faixa livre maior antes de cada espiral, mantendo a cor e o modelo originais;
+- bases brancas removidas e capas exibidas em sua proporção exata;
+- espirais reconstruídos individualmente, completos e com margem na própria capa;
+- personalização da capa com título, informação adicional, fonte, cor, tamanho e posição;
+- salvamento local criptografado por senha;
+- bloqueio automático após 5 minutos;
+- estrutura de sincronização automática por código particular;
+- instalação como aplicativo e funcionamento offline dos arquivos já carregados;
+- stickers otimizados para facilitar o download, sem alterar os desenhos;
+- capa do unicórnio substituída por um cavalo branco, sem chifre;
+- acabamento do espiral da capa bege corrigido, sem blocos atrás dos aros;
+- somente “Conexões pelo Mundo” aparece na primeira entrada;
+- todas as outras capas ficam em “Criar novo caderno” e só entram na estante quando forem escolhidas;
+- cadernos já preenchidos são preservados durante a atualização;
+- instrução de abertura colocada sobre a própria capa, sem faixa extra abaixo;
+- nome escolhido pela pessoa exibido abaixo da capa na estante;
+- campo opcional para informação adicional do caderno;
+- personalização da capa aberta automaticamente após a criação;
+- edição posterior de nome, informação, fonte, cor, tamanho e posição pelo botão de lápis;
+- escrita manual com caneta digital ou mouse, pressão, cor e espessura;
+- marca-texto, borracha, desfazer e refazer;
+- traços de caneta guardados por página e incluídos na sincronização e no backup;
+- resumo local com tópicos principais, disponível também sem internet;
+- infográfico colorido criado a partir das anotações e guardado na página;
+- estrutura segura para leitura on-line da escrita manual, sem expor chaves no site;
+- backup criptografado de um caderno ou de toda a estante;
+- restauração protegida que não apaga os cadernos atuais;
+- exportação do caderno em PDF com capa, páginas, stickers, caneta, resumo e infográfico;
+- arquivamento anual com criação automática da continuação (por exemplo, 2026 para 2027).
+- colagem como texto limpo, removendo espaçamentos e formatações escondidas;
+- linhas isoladas da área de transferência reunidas em parágrafos naturais;
+- folha com altura limitada e criação automática de Página 2, Página 3 e seguintes;
+- resumo e infográfico com conceitos completos, sem palavras soltas sem significado;
+- tópicos acompanhados de pequenas explicações retiradas da própria anotação.
+
+IMPORTANTE
+
+A sincronização on-line será ativada depois que o projeto Firebase do Caderno
+Especial FTC for criado e sua configuração for colocada em firebase-config.js.
+Até essa etapa, o aplicativo salva os cadernos com segurança neste aparelho.
+
+O resumo, os tópicos e o infográfico funcionam localmente. A transformação da
+escrita manual em texto será ativada quando o endereço de uma função on-line
+protegida for colocado em CADERNO_AI_ENDPOINT. Nenhuma chave secreta deve ser
+colocada nos arquivos públicos do GitHub Pages.
+
+As bandeiras são fornecidas pelo serviço FlagCDN/Flagpedia, com base em arquivos
+de domínio público do Wikimedia Commons: https://flagpedia.net
