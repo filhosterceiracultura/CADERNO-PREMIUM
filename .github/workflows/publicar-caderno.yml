@@ -26,8 +26,8 @@ jobs:
       - name: Baixar repositório
         uses: actions/checkout@v4
 
-      - name: Preparar Caderno V19
-        run: unzip -q BAIXAR_CADERNO_V19.zip -d pacote
+      - name: Preparar Caderno V22
+        run: unzip -q BAIXAR_CADERNO_V22.zip -d pacote
 
       - name: Configurar GitHub Pages
         uses: actions/configure-pages@v5
